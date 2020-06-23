@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
   node: circleci/node@1.1.6
+  aws-s3: circleci/aws-s3@1.0.15
 jobs:
-  build-and-test:
+ build-and-run:
     executor:
       name: node/default
     steps:
@@ -10,8 +11,26 @@ jobs:
       - node/with-cache:
           steps:
             - run: npm install
-            - run: npm test
+            - run: npm run build
+      - persist_to_workspace:
+          root: /home/circleci
+          paths: project/*
+ deploy2s3: 
+    docker: 
+      - image: cimg/python:3.6
+    steps:
+      - attach_workspace:
+          at: .
+      - aws-s3/copy: #invokes the sync command declared in the s3 orb
+          from: /home/circleci/project
+          to: 's3://cicd-hackney-works-theme-artifact'
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_REGION
 workflows:
-    build-and-test:
+    build-and-deploy:
       jobs:
-        - build-and-test
+        - build-and-run
+        - deploy2s3:
+            requires:
+              - build-and-run
