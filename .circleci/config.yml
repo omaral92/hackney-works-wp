@@ -14,7 +14,6 @@ jobs:
             - run: npm run build
       - zip-artifacts:
             - run:
-                name: zipping
                 command: 'zip -r app.zip /home/circleci/project/*'
       - persist_to_workspace:
           root: /home/circleci/project
