@@ -4,9 +4,9 @@ orbs:
   aws-s3: circleci/aws-s3@1.0.15
 jobs:
  build-and-run:
-    branches:
-      only:
-        - master
+    filters:
+      branches:
+        only: master
     executor:
       name: node/default
     steps:
@@ -19,9 +19,9 @@ jobs:
           root: /home/circleci/project
           paths: .
  deploy2s3:
-    branches:
-      only:
-        - master
+    filters:
+      branches:
+        only: master
     docker: 
       - image: cimg/python:3.6
     steps:
