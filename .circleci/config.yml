@@ -13,7 +13,8 @@ jobs:
             - run: npm install
             - run: npm run build
       - zip-artifacts:
-            - run: 
+            - run:
+                shell: /bin/sh
                 command: | 
                   zip -r app.zip /home/circleci/project/*;
       - persist_to_workspace:
