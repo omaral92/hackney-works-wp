@@ -21,7 +21,7 @@ jobs:
  deploy2s3:
      branches:
         only:
-        - master
+          - master
     docker: 
       - image: cimg/python:3.6
     steps:
