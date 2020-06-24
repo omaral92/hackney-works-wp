@@ -22,8 +22,7 @@ jobs:
       - attach_workspace:
           at: .
       - zip-artifacts:
-            - run: |
-                  zip -r app.zip /home/circleci/project/*
+            - run: - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
       - aws-s3/sync: #invokes the sync command declared in the s3 orb
           from: /home/circleci/project/app.zip
           to: 's3://cicd-hackney-works-theme-artifact'
