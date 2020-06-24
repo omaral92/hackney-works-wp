@@ -12,8 +12,6 @@ jobs:
           steps:
             - run: npm install
             - run: npm run build
-      - zip-artifacts:
-            - run: 'zip -r app.zip /home/circleci/project/*'
       - persist_to_workspace:
           root: /home/circleci/project
           paths: .
@@ -23,6 +21,8 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - zip-artifacts:
+            - run: 'zip -r app.zip /home/circleci/project/*'
       - aws-s3/sync: #invokes the sync command declared in the s3 orb
           from: /home/circleci/project/app.zip
           to: 's3://cicd-hackney-works-theme-artifact'
